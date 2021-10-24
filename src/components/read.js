@@ -1,35 +1,26 @@
 import React from 'react';
 import { Movies } from './movies';
+import axios from 'axios'; // imported axios *NO BRACKETS*
 
 export class Read extends React.Component{
 
     // state contains JSON file with movie info
     // title, year, ID, type, and a image titled poster
+    // deleted the hard coded json data that was in the movies array
     state = {
-        movies: [
-            {
-            "Title": "Avengers: Infinity War",
-            "Year": "2018",
-            "imdbID": "tt4154756",
-            "Type": "movie",
-            "Poster": "https://m.media-amazon.com/images/M/MV5BMjMxNjY2MDU1OV5BMl5BanBnXkFtZTgwNzY1MTUwNTM@._V1_SX300.jpg"
-            },
-            {
-            "Title": "Captain America: Civil War",
-            "Year": "2016",
-            "imdbID": "tt3498820",
-            "Type": "movie",
-            "Poster": "https://m.media-amazon.com/images/M/MV5BMjQ0MTgyNjAxMV5BMl5BanBnXkFtZTgwNjUzMDkyODE@._V1_SX300.jpg"
-            },
-            {
-            "Title": "Charlie Wilson's War",
-            "Year": "2007",
-            "imdbID": "tt0472062",
-            "Type": "movie",
-            "Poster": "https://m.media-amazon.com/images/M/MV5BMTgwMDgwMDc4MF5BMl5BanBnXkFtZTYwOTU3MDM4._V1_SX300.jpg"
-            }
-            ]
+        movies: []
     };
+
+    // uses axios
+    componentDidMount(){
+        axios.get('https://jsonblob.com/api/jsonblob/894944504570986496')
+            .then((response) => { //response is the data being called
+                this.setState({ movies: response.data.Search })
+            })
+            .catch((error) => {
+                console.log(error)
+            });
+    }
 
     render(){
         return(
