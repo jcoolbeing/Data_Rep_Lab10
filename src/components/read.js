@@ -12,10 +12,10 @@ export class Read extends React.Component{
     };
 
     // uses axios
-    componentDidMount(){
-        axios.get('https://jsonblob.com/api/jsonblob/894944504570986496')
+    componentDidMount(){// gets data from new local host api
+        axios.get('http://locahost:4000/api/movies')
             .then((response) => { //response is the data being called
-                this.setState({ movies: response.data.Search })
+                this.setState({ movies: response.data.movies })
             })
             .catch((error) => {
                 console.log(error)
