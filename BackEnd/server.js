@@ -3,6 +3,7 @@ const app = express()
 const port = 4000
 const cors = require('cors'); // enable the use of cross origin resource sharing
 const bodyParser = require("body-parser"); // add a body parser
+const mongoose = require('mongoose'); // adds mongoose library
 
 // intrigrate cors into server code
 app.use(cors());
@@ -14,8 +15,28 @@ res.header("Access-Control-Allow-Headers",
 next();
 });
 
+// parse application/x-www-form-urlencoded headers
+app.use(bodyParser.urlencoded({extended: false}))
+// parse application/json
+app.use(bodyParser.json())
+// connect to mongoose database
+const myConnectionString = 'mongodb+srv://admin:admin111@cluster0.a6k4f.mongodb.net/movies?retryWrites=true&w=majority';
+mongoose.connect('myConnectionString', {useNewUrlParser: true});
+
+// created a schema for the database
+const Schema = mongoose.Schema;
+
+var movieSchema = new Schema({
+    title:String,
+    year:String,
+    poster:String
+});
+//creating a model
+var MovieModel = mongoose.model("movie", movieSchema);
+
+
 //
-app.get('/api/movies', (req, res)=>{
+/**app.get('/api/movies', (req, res)=>{
     const mymovies = [ // hard code movie data in a json
             {
             "Title":"Avengers: Infinity War",
@@ -45,14 +66,25 @@ app.get('/api/movies', (req, res)=>{
             "Poster":"https://m.media-amazon.com/images/M/MV5BNDUyODAzNDI1Nl5BMl5BanBnXkFtZTcwMDA2NDAzMw@@._V1_SX300.jpg"
         }
     ];
+    */
+    MovieModel.find((err, data)=>{
+        res.json(data);
+    })
+
     // send the json code to server
-    res.status(200).json({
+    /**res.status(200).json({
         message: "Everything is good",
         movies:mymovies
     })
-})
-app.get('/api/movies', (req, res)=>{
+})*/
 
+app.get('/api/movies/:id', (req, res)=>{
+    console.log(req.params.id);
+
+    //find 'id' in database
+    MovieModel.findById(req.params.id, (err, data) =>{
+        res.json(data);
+    })
 })
 // post
 app.post('/api/movies',(req, res)=>{
@@ -60,7 +92,15 @@ console.log('Movie Received!');
 console.log('req.body.title');
 console.log('req.body.year');
 console.log('req.body.poster');
+
+MovieModel.create({
+    title:req.body.title,
+    year:req.body.year,
+    poster:req.body.poster
+    })
+    res.send('Item Added');//will keep it from posting duplicated movies 
 })
+
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
