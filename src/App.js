@@ -2,15 +2,16 @@
 // import list
 import React, { Component } from 'react';
 import './App.css';
-import Header from './components/header';
-import Content from './components/content';
-import Footer from './components/footer';
-import Create from './components/create';
-import Read from './components/read';
+import {Header} from './components/header';
+import {Content} from './components/content';
+import {Footer} from './components/footer';
+import {Create} from './components/create';
+import {Read} from './components/read';
+import { Edit } from './components/edit';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Navbar from 'react-bootstrap/Navbar';
 import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
+import { Navbar, Nav} from 'react-bootstrap';
 
 import {
   BrowserRouter as Router,
@@ -42,6 +43,7 @@ class App extends Component {
           <Route path='/' component={Content} exact />
           <Route path='/create' component={Create} exact />
           <Route path='/read' component={Read} exact />
+          <Route path='/edit/:id' component={Edit}/>
         </Switch>
       </div>
       </Router>

@@ -86,6 +86,19 @@ app.get('/api/movies/:id', (req, res)=>{
         res.json(data);
     })
 })
+
+//override: find record by id and update it
+app.put('/api/movies/:id', (req, res)=>{
+    console.log('Update movie: '+req.params.id);
+    console.log(req.body);
+
+    MovieModel.findByIdAndUpdate(req.params.id,req.body, {new:true},
+        (err,data)=>{
+            res.send(data);
+        })
+})
+
+
 // post
 app.post('/api/movies',(req, res)=>{
 console.log('Movie Received!');

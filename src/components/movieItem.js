@@ -1,5 +1,6 @@
 import React from 'react';
-import { Card } from 'react-bootstrap';
+import  Card from 'react-bootstrap';
+import {Link} from 'react-router-dom';
 
 export class MovieItem extends Read.Component{
 
@@ -18,6 +19,8 @@ export class MovieItem extends Read.Component{
                         </footer>
                     </blockquote>
                 </Card.Body>
+                 //creates a edit button
+                <Link to={"/edit/"+this.props.movie._id} className="btn btn-primary">Edit</Link>
             </Card>
         </div>
         );
