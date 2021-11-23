@@ -4,6 +4,11 @@ import axios from 'axios'; // imported axios *NO BRACKETS*
 
 export class Read extends React.Component{
 
+    constructor(){
+        super();
+        this.ReloadData = this.ReoladData.bind(this);
+    }
+
     // state contains JSON file with movie info
     // title, year, ID, type, and a image titled poster
     // deleted the hard coded json data that was in the movies array
@@ -22,12 +27,23 @@ export class Read extends React.Component{
             });
     }
 
+    ReloadData(){
+        axios.get('http://locahost:4000/api/movies')
+        .then((response) => { //response is the data being called
+            this.setState({ movies: response.data.movies })
+        })
+        .catch((error) => {
+            console.log(error)
+        });
+    }
+
+
     render(){
         return(
             <div>
                 <h1>This is the read component.</h1>
                 // java code that takes the movie state from the movie file
-                <Movies movies={this.state.movies}></Movies> 
+                <Movies movies={this.state.movies} ReloadData={this.RelaodData}></Movies> 
             </div>
         );
     }
