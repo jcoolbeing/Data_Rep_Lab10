@@ -4,6 +4,7 @@ const port = 4000
 const cors = require('cors'); // enable the use of cross origin resource sharing
 const bodyParser = require("body-parser"); // add a body parser
 const mongoose = require('mongoose'); // adds mongoose library
+const path = require('path');
 
 // intrigrate cors into server code
 app.use(cors());
@@ -14,6 +15,10 @@ res.header("Access-Control-Allow-Headers",
 "Origin, X-Requested-With, Content-Type, Accept");
 next();
 });
+
+// lines that tell the app where the build folder and static folder are
+app.use(express.static(path.join(__dirname, '../build')));
+app.use('/static', express.static(path.join(__dirname, 'build//static')));
 
 // parse application/x-www-form-urlencoded headers
 app.use(bodyParser.urlencoded({extended: false}))
@@ -123,6 +128,9 @@ MovieModel.create({
     res.send('Item Added');//will keep it from posting duplicated movies 
 })
 
+app.get('*', (req, res)=>{
+    res.sendFile(path.join(__dirname+'/../build/index.html'));
+})
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
